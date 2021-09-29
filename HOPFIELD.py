@@ -1,7 +1,5 @@
 import numpy as np
 
-# Definição das imagens conhecidas e desconhecida.
-
 img1 = [1, 1, 1, 1, 1, -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, -1, -1, -1, -1, 1, 1, 1, 1, 1, 1, 1, -1]
 img2 = [1, 1, -1, -1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, 1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1]
 img3 = [-1, -1, 1, 1, -1, -1, -1, 1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, 1, 1, 1, 1, -1]
@@ -12,12 +10,8 @@ img7 = [-1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, -1, 1, 1, 1, 1, -1, 1, 1, -1
 img_desconhecida = [1, 1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, -1, 1, 1, -1, 1, 1, -1]
 imgEx = [img1, img2, img3, img4, img5, img6, img7]
 
-
-# Numero de interações máximas realizadas
 n_iteracoesmax = 10
 
-
-#Função para inicializar a matriz
 def inicializarMatriz():
     matriz = []
 
@@ -32,7 +26,7 @@ def inicializarMatriz():
 
     return matriz
 
-#Função para gerar os pesos da matriz, utilizando as imagens definidas no escopo, inicializa a matriz e realiza os calculos para gerar a matriz de peso.
+
 def gerarPesosMatriz():
     padroes = [img1, img2, img3, img4, img5, img7]
     matrizPeso = inicializarMatriz()
@@ -52,8 +46,13 @@ def gerarPesosMatriz():
 
     return matrizPeso
 
-#Função para treinamento utilizando a matriz de peso, temos como parametro pesos, imagem_desconhecida e contador, e verificando se converge ou não e mostrando na tela.
+
 def treinar(pesos, img_desconhecida, contador):
+
+    if contador == 0:
+        print("Padrão de Entrada", end="")
+        imprimir(img_desconhecida)
+
     if contador == n_iteracoesmax:
         print("FALHOU")
         return
@@ -72,6 +71,8 @@ def treinar(pesos, img_desconhecida, contador):
 
     convergiu = False
 
+    imprimir(padraoY)
+
     for i in range(0, len(imgEx)):
         convergiu = np.array_equal(padraoY, imgEx[i])
 
@@ -82,6 +83,29 @@ def treinar(pesos, img_desconhecida, contador):
         treinar(pesos, padraoY, contador)
     else:
         print(f"\nCONVERGIU na {contador}ª vez")
+
+
+def imprimir(padraoY):
+
+    padrao = []
+    aux = []
+
+    for i in range(0,len(padraoY)):
+
+        aux.append(padraoY[i])
+
+        if (i+1) % 6 == 0:
+            padrao.append(aux)
+            aux = []
+
+    print()
+    for i in range(0,len(padrao)):
+        for j in range(0,len(padrao[i])):
+            if padrao[i][j] != 1:
+                print("\u2B1C", end="")
+            else:
+                print("\u2B1B", end="")
+        print()
 
 
 if __name__ == '__main__':
