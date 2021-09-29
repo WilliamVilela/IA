@@ -48,6 +48,11 @@ def gerarPesosMatriz():
 
 
 def treinar(pesos, img_desconhecida, contador):
+
+    if contador == 0:
+        print("Padrão de Entrada", end="")
+        imprimir(img_desconhecida)
+
     if contador == n_iteracoesmax:
         print("FALHOU")
         return
@@ -66,6 +71,8 @@ def treinar(pesos, img_desconhecida, contador):
 
     convergiu = False
 
+    imprimir(padraoY)
+
     for i in range(0, len(imgEx)):
         convergiu = np.array_equal(padraoY, imgEx[i])
 
@@ -78,7 +85,30 @@ def treinar(pesos, img_desconhecida, contador):
         print(f"\nCONVERGIU na {contador}ª vez")
 
 
-if __name__ == '__main__':
+def imprimir(padraoY):
+
+    padrao = []
+    aux = []
+
+    for i in range(0,len(padraoY)):
+
+        aux.append(padraoY[i])
+
+        if (i+1) % 6 == 0:
+            padrao.append(aux)
+            aux = []
+
+    print()
+    for i in range(0,len(padrao)):
+        for j in range(0,len(padrao[i])):
+            if padrao[i][j] != 1:
+                print("\u2B1C", end="")
+            else:
+                print("\u2B1B", end="")
+        print()
+
+
+if _name_ == '_main_':
     pesos = gerarPesosMatriz()
     contador = 0
     treinar(pesos, img_desconhecida, contador)
